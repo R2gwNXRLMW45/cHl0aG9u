@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URLs, Domains, and Filtered Shells</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+            font-size: 36px;
+        }
+        form {
+            margin: 20px auto;
+            max-width: 800px; /* Increased max-width */
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="text"], textarea { /* Applied to both input and textarea */
+            width: 100%;
+            padding: 15px; /* Increased padding */
+            margin-bottom: 20px; /* Increased margin */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px; /* Increased font size */
+        }
+        input[type="submit"] {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 15px 30px; /* Increased padding */
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px; /* Increased font size */
+        }
+        input[type="submit"]:hover {
+            background-color: #555;
+        }
+        #filtered-shells {
+            height: 200px; /* Increased height */
+            resize: vertical; /* Allow vertical resizing */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>URLs, Domains, and Filtered Shells</h1>
+    </header>
+    <form id="shell-form">
+        <label for="urls">Paste your URLs:</label>
+        <textarea id="urls" name="urls" placeholder="Enter URLs separated by line breaks" rows="6">https://example.com/page1
+https://example.net/page2
+https://anotherexample.com/page3</textarea> <!-- Adjusted rows -->
+
+        <label for="domains">Your domains:</label>
+        <textarea id="domains" name="domains" placeholder="Enter your domains separated by line breaks" rows="6">https://example.net
+https://example.com</textarea> <!-- Adjusted rows -->
+
+        <label for="filtered-shells">Filtered Shells:</label>
+        <textarea id="filtered-shells" name="filtered-shells" readonly rows="10"></textarea> <!-- Adjusted rows -->
+
+        <input type="submit" value="Submit">
+    </form>
+    <footer>
+        <p>&copy; 2024 URLs, Domains, and Filtered Shells Form. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById('shell-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission
+            
+            // Get the values from the input fields
+            var urls = document.getElementById('urls').value.trim().split('\n'); // Split URLs by line breaks
+            var domains = document.getElementById('domains').value.trim().split('\n'); // Split domains by line breaks
+
+            // Filtering logic
+            var filteredShells = [];
+            urls.forEach(function(url) {
+                var matchedDomain = domains.find(function(domain) {
+                    return url.includes(domain.trim());
+                });
+                if (matchedDomain) {
+                    filteredShells.push(url);
+                }
+            });
+
+            // Set the filtered shells value to the output box
+            document.getElementById('filtered-shells').value = filteredShells.join('\n');
+        });
+    </script>
+</body>
+</html>
